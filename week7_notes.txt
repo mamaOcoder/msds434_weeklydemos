@@ -1,0 +1,13 @@
+GCP Microservice App Demo steps:
+- Create project msds434-mod7
+- Open Cloud Shell
+- Install Go
+	sudo apt update
+	sudo apt install golang-go
+- Clone GitHub repo
+	git clone https://github.com/palomasoftware/MSDS434_Golang_MicroserviceIntroduction.git
+- Start server 
+	go run intro_two.go
+- Open the preview and update url to test endpoints
+	resources/123
+	resources/456/values

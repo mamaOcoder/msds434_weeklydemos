@@ -1,0 +1,17 @@
+GCP Pub/Sub Demo:
+- Create project msds434-mod8
+- Enable Pub/Sub API
+- Open Cloud Shell
+- Enable IAM role for pub/sub
+	gcloud projects add-iam-policy-binding msds434-mod8 --member="user:lkanderson.learning@gmail.com" --role=roles/pubsub.admin
+- Create topic
+	gcloud pubsub topics create my-topic
+- Create subscription
+	gcloud pubsub subscriptions create my-sub --topic my-topic
+- Copy publish.go and receive.go code to shell
+- Run code
+	go run publish.go
+	go run receive.go 
+
+https://cloud.google.com/pubsub/docs/pubsub-basics
+https://cloud.google.com/pubsub/docs/publish-receive-messages-client-library

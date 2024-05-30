@@ -1,0 +1,37 @@
+GCP Google App Engine Demo steps:
+- Create MSDS434-wk3 project
+- Enable App Engine Admin API
+- Open Cloud Shell
+	gcloud config set project msds434-wk3
+- Clone GitHub repo
+	git clone https://github.com/palomasoftware/MSDS434_ModuleThree_golangDockerDemo.git
+- Create yaml file
+	vim app.yaml
+		runtime: custom
+		env: flex
+- Deploy
+	gcloud app deploy
+
+
+AWS Elastic Beanstalk Demo steps:
+- Create EC2 instance
+- Open terminal and ssh
+- Install Docker
+	sudo snap install docker
+- Clone GitHub repo
+	git clone https://github.com/palomasoftware/MSDS434_ModuleThree_golangDockerDemo.git
+- Build Docker
+	sudo docker build -t golangdockertest .
+	sudo docker run -p 8080:8080 -tid golangdockertest
+- Update security rules to allow all traffic
+- Zip application
+	sudo apt install zip
+	zip files.zip *
+	scp -i [.pem] ubuntu@[ip]:MSDS434_ModuleThree_golangDockerDemo/week3.zip .
+- Update IAM roles to add permissions
+	AWSElasticBeanstalkWebTier
+	AWSElasticBeanstalkWorkerTier
+	AWSElasticBeanstalkMulticontainerDocker
+- Open Elastic Beanstalk and create new application and new environment
+	- Select Docker in Platform dropdown
+	- Upload code from local file

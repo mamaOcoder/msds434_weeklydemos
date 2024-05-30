@@ -1,0 +1,22 @@
+GCP BigQuery ML Demo:
+- Create a new project called msds434-mod5
+- Go to BigQuery in console
+- Click "Create Dataset"
+- Open Cloud Shell
+- Pull sample csv code from GitHub repo
+- Build bucket and push to BigQuery
+	PROJECT=msds434-mod5
+	BUCKET=${PROJECT}-demobucket
+	REGION=us-east1
+	gsutil mb -l $REGION gs://$BUCKET
+
+	gsutil -m cp *.csv gs://$BUCKET
+	bq load --autodetect --source_format=CSV mod5demo.train gs://$BUCKET/sampleRecidivismData.csv
+	bq load --autodetect --source_format=CSV mod5demo.test gs://$BUCKET/testRecidData.csv
+- Open BigQuery in console and open query editor
+
+CREATE OR REPLACE MODEL `mod5demo.recid_model`
+       OPTIONS(model_type='logistic_reg',
+               input_label_cols=['RecidivismWithin3years'])
+AS SELECT * EXCEPT (ID)
+FROM `msds434 .mod5demo.train`

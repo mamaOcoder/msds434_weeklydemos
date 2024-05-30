@@ -1,0 +1,36 @@
+GCP AutoML Demo:
+- Create new project
+- Open BigQuery and create new dataset
+- Run sample model from https://cloud.google.com/bigquery/docs/reference/standard-sql/bigqueryml-syntax-create-automl
+
+CREATE OR REPLACE MODEL `project_id.mydataset.mymodel`
+       OPTIONS(model_type='AUTOML_REGRESSOR',
+               input_label_cols=['fare_amount'],
+               budget_hours=1.0)
+AS SELECT
+  (tolls_amount + fare_amount) AS fare_amount,
+  pickup_longitude,
+  pickup_latitude,
+  dropoff_longitude,
+  dropoff_latitude,
+  passenger_count
+FROM `nyc-tlc.yellow.trips`
+WHERE ABS(MOD(FARM_FINGERPRINT(CAST(pickup_datetime AS STRING)), 100000)) = 1
+AND
+  trip_distance > 0
+  AND fare_amount >= 2.5 AND fare_amount <= 100.0
+  AND pickup_longitude > -78
+  AND pickup_longitude < -70
+  AND dropoff_longitude > -78
+  AND dropoff_longitude < -70
+  AND pickup_latitude > 37
+  AND pickup_latitude < 45
+  AND dropoff_latitude > 37
+  AND dropoff_latitude < 45
+  AND passenger_count > 0
+
+- Took a little over 2 hours to complete
+- Run predictions
+
+SELECT * FROM ML.PREDICT(MODEL `project_id.mydataset.mymodel`, (
+    SELECT * FROM `nyc-tlc.yellow.trips` LIMIT 100))

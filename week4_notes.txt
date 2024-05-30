@@ -1,0 +1,34 @@
+GCP BigQuery Demo steps:
+- Create a new project called msds434-mod4
+- Open Cloud Shell
+	gcloud config set project msds434-mod4
+- Clone GitHub repo
+	git clone https://github.com/GoogleCloudPlatform/data-science-on-gcp
+- Make new directory to store the csv files
+	mkdir data
+	bash download.sh 2015 1
+- Take subset of that data
+	cp 201501.csv 201501.bck
+	vim demo.py
+		f = open("201501.bck").readlines()
+		fout = open("201501.csv","w")
+		for i in range(5000):
+    			fout.write(f[i])
+	python demo.py
+- Create BigQuery bucket and add data
+	PROJECT=msds434-mod4-2
+	BUCKET=${PROJECT}-demobucket
+	REGION=us-east1
+	gsutil mb -l $REGION gs://$BUCKET
+- Push file to Cloud Storage
+	gsutil -m cp *.csv gs://$BUCKET
+- Make BigQuery dataset
+	bg mk mod4recid
+- Load data
+	bq load --autodetect --source_format=CSV mod4recid.recid gs://$BUCKET/sampleRecidivismData.csv
+- Go to BigQuery in console to query and explore the data.
+
+AWS Redshift Demo steps:
+- Open Redshift and select Redshift Serverless dashboard
+- Create new workgroup using default settings
+- Ran into issues trying to upload sample csv from local computer. looks like I need to Redshift uses S3 as an intermediate storage location. But I could not find the place in the Redshift console where I can configure a new S3. It looks like I might need to go into S3 and then set up IAM settings to connect the 2.

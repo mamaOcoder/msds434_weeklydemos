@@ -1,0 +1,17 @@
+GCP Demo steps:
+- Create new project
+- Click on "Compute Engine"
+- Click on "Create Instance"
+	- Name instance "moduleone"
+	- Set region to "us-east1"
+	- Select "e2-micro" for machine type
+- Open SSH shell
+
+AWS Demo steps:
+- Go to EC2 service
+- Choose region (stuck with default- Ohio)
+- Click on "Instances" and click on "Launch Instances"
+	- Select .pem key to load
+- Copy IP address from browser
+- Open terminal on my local machine
+	- ssh into instance: ssh -i [.pem] ubuntu@[ip]

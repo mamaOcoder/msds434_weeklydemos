@@ -1,0 +1,4 @@
+GitHub Actions Demo:
+- Create new GitHub repo mod10demo
+- Push main.go and yaml files to repo
+- Click on Actions tab to explore the workflows
